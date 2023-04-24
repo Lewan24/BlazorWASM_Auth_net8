@@ -1,0 +1,36 @@
+﻿@page "/"
+@using System.Security.Claims
+
+@inject CustomStateProvider provider
+@inject AuthenticationStateProvider auth
+
+<AuthorizeView>
+    <Authorized>
+        <h1>Hello @context.User.Identity.Name !!</h1>
+        <p>Welcome to app.</p>
+        <SurveyPrompt Title="How is Blazor working for you?" />
+        
+        <h3>@context.User.IsInRole("User")</h3>
+        
+        <button class="btn btn-primary" @onclick="test">Refresh roles</button>
+        
+        @foreach (var item in roles)
+        {
+            <p>@item.Type - @item.Value</p>
+        }
+    </Authorized>
+    <Authorizing>
+        <h1>Loading ...</h1>
+    </Authorizing>
+</AuthorizeView>
+
+@code
+{
+    List<Claim> roles = new();
+
+    public async Task test()
+    {
+        var stateCheck = await provider.GetAuthenticationStateAsync();
+        roles = stateCheck.User.Claims.ToList();
+    }
+}

@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+
+  phpmyadmin:
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    ports:
+      - 8081:80
+    networks:
+      - testnetwork
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-vol:/var/lib/mysql
+    networks:
+      - testnetwork
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5050:80/tcp"   
+    networks:
+      - testnetwork
+    depends_on:
+      - db
+volumes:
+  db-vol:
+  
+networks:
+  testnetwork:
