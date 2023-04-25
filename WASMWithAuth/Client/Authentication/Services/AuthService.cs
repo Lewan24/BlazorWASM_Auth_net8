@@ -17,7 +17,8 @@ public class AuthService : IAuthService
     public async Task Login(LoginRequest loginRequest)
     {
         var result = await _httpClient.PostAsJsonAsync("api/Auth/Login", loginRequest);
-        if (result.StatusCode == System.Net.HttpStatusCode.BadRequest) throw new Exception(await result.Content.ReadAsStringAsync());
+        if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            throw new Exception(await result.Content.ReadAsStringAsync());
         result.EnsureSuccessStatusCode();
     }
 

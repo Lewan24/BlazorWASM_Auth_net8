@@ -1,6 +1,13 @@
 ﻿@inherits LayoutComponentBase
-<div class="main">
-    <div class="content px-4">
-        @Body
-    </div>
-</div>
+
+<MudThemeProvider IsDarkMode="true" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudMainContent>
+        <MudContainer Class="pa-4" MaxWidth="MaxWidth.Medium">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>

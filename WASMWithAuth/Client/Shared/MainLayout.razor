@@ -2,27 +2,34 @@
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider IsDarkMode="true" />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    <main>
-        <div class="top-row px-4">
-            <button type="button" class="btn btn-link ml-md-auto" @onclick="@LogoutClick">Logout</button>
-        </div>
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.MoreVert" OnClick="ToggleDrawer"/>
+        <MudSpacer/>
+        <MudButton Color="Color.Primary" OnClick="LogoutClick" StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text">Logout</MudButton>
+    </MudAppBar>
+    
+    <MudDrawer Open="isDrawerOpen">
+        <NavMenu/>
+    </MudDrawer>
 
-        <div class="content px-4">
+    <MudMainContent>
+        <MudContainer Class="pa-4" MaxWidth="MaxWidth.Large">
             @Body
-        </div>
-    </main>
-</div>
-
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
 @functions{
 
     [CascadingParameter]
     Task<AuthenticationState> AuthenticationState { get; set; }
+
+    bool isDrawerOpen = false;
 
     protected override async Task OnParametersSetAsync()
     {
@@ -36,4 +43,6 @@
         await authStateProvider.Logout();
         navigationManager.NavigateTo("/account/login");
     }
+
+    void ToggleDrawer() => isDrawerOpen = !isDrawerOpen;
 }
