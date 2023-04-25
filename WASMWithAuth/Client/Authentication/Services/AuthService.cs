@@ -65,6 +65,7 @@ public class AuthService : IAuthService
 
     public async Task RefreshToken(string username)
     {
+        //TODO: Returns basically badrequest. Cant refresh token while on main page token is null
         var result = await _httpClient.PostAsJsonAsync("api/Auth/RefreshToken", username);
         result.EnsureSuccessStatusCode();
 
