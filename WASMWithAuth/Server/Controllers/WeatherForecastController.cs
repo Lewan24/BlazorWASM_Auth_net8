@@ -31,7 +31,7 @@ namespace WASMWithAuth.Server.Controllers
         public async Task<IActionResult> GetWeather(string token)
         {
             if (!await _tokenValidationService.CheckValidation(token, User.Identity.Name))
-                return BadRequest("Invalid auth");
+                return Ok("Invalid auth");
 
             return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecast
                 {

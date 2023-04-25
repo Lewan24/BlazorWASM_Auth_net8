@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
+using Newtonsoft.Json;
 using WASMWithAuth.Client.Authentication.Account;
 using WASMWithAuth.Client.Authentication.Interfaces;
 using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace WASMWithAuth.Client.Authentication.Services;
 
@@ -17,7 +18,7 @@ public class AuthService : IAuthService
         _httpClient = httpClient;
     }
 
-    public UserToken? UserToken { get; set; }
+    public UserToken? UserToken { get; set; } = new();
 
     public async Task Login(LoginRequest loginRequest)
     {
@@ -29,9 +30,9 @@ public class AuthService : IAuthService
         var result2 = await _httpClient.PostAsJsonAsync("api/Auth/GetUserToken", loginRequest);
         result2.EnsureSuccessStatusCode();
 
-        var jsonstring = result2.Content.ReadAsStringAsync().Result;
+        var jsonstring = await result2.Content.ReadAsStringAsync();
 
-        UserToken = JsonSerializer.Deserialize<UserToken?>(jsonstring);
+        UserToken = JsonConvert.DeserializeObject<UserToken>(jsonstring);
     }
 
     public async Task<bool> TryLogin(LoginRequest request)
@@ -67,6 +68,6 @@ public class AuthService : IAuthService
         var result = await _httpClient.PostAsJsonAsync("api/Auth/RefreshToken", username);
         result.EnsureSuccessStatusCode();
 
-        UserToken = JsonSerializer.Deserialize<UserToken>(result.Content.ReadAsStringAsync().Result);
+        UserToken = JsonConvert.DeserializeObject<UserToken>(await result.Content.ReadAsStringAsync());
     }
 }

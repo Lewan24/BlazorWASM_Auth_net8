@@ -75,12 +75,8 @@ namespace WASMWithAuth.Client.Authentication.Services
         {
             if (string.IsNullOrWhiteSpace(password))
             {
-                if (api.UserToken is null)
-                    return null;
-
-                if (api.UserToken.ExpirationDate < DateTime.UtcNow)
-                    _nav.NavigateTo("/account/ConfirmPassword", true);
-
+                if (string.IsNullOrWhiteSpace(api.UserToken.Token) || api.UserToken.ExpirationDate < DateTime.UtcNow)
+                    _nav.NavigateTo("/account/ConfirmPassword");
                 return api.UserToken;
             }
 
@@ -91,6 +87,7 @@ namespace WASMWithAuth.Client.Authentication.Services
                 return api.UserToken;
             }
 
+            _nav.NavigateTo("/account/ConfirmPassword");
             return null;
         }
     }

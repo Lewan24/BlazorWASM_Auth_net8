@@ -24,6 +24,7 @@ builder.Services.ConfigureApplicationCookie(options =>
         context.Response.StatusCode = 401;
         return Task.CompletedTask;
     };
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
 });
 
 builder.Services.AddScoped<ITokenValidationService, TokenValidationService>();

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Identity;
 using WASMWithAuth.Server.Data.Interfaces;
 using WASMWithAuth.Server.Models;
 
@@ -17,11 +18,11 @@ public class TokenValidationService : ITokenValidationService
         _context = context;
     }
 
-    public Task<bool> CheckValidation(string token, string userName)
+    public Task<bool> CheckValidation(string? token, string? userName)
     {
         var userToken = _context.UserTokens.FirstOrDefault(t => t.Token == token && t.UserName == userName && t.IsInActive == false);
 
-        if (userToken is null)
+        if (string.IsNullOrWhiteSpace(userToken.Token))
             return Task.FromResult(false);
 
         if (!CheckExpiration(token).Result)

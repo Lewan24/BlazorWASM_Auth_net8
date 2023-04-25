@@ -1,6 +1,7 @@
 ﻿@page "/fetchdata"
 @using WASMWithAuth.Shared
 @using Microsoft.AspNetCore.Authorization
+@using System.Text.Json
 @inject HttpClient Http
 @inject CustomStateProvider provider
 
@@ -41,13 +42,27 @@ else
     </table>
 }
 
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <p style="color:red">@error</p>
+}
+
 @code {
     private WeatherForecast[]? forecasts;
+    private string? error;
 
     protected override async Task OnInitializedAsync()
     {
-        var userToken = await provider.GetUserToken();
+        try
+        {
+            var userToken = await provider.GetUserToken();
 
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>($"api/WeatherForecast/GetWeather?token={userToken.Token}");
+            forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>($"api/WeatherForecast/GetWeather?token={userToken.Token}");
+            error = "";
+        }
+        catch (Exception e)
+        {
+            error = e.Message;
+        }
     }
 }

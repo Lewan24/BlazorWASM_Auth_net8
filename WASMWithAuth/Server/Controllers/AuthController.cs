@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 using System.Text.Json;
+using WASMWithAuth.Client;
 using WASMWithAuth.Server.Data;
 using WASMWithAuth.Server.Models;
 using WASMWithAuth.Shared.Entities;
@@ -40,7 +42,8 @@ public class AuthController : ControllerBase
         await _signInManager.SignInAsync(user, request.RememberMe);
 
         var result = await GetUserToken(request);
-        if (result is null)
+
+        if (string.IsNullOrWhiteSpace(result.Token))
             await CreateNewUserToken(request.UserName, expirationTimeInMinutes: 20);
 
         return Ok();
@@ -102,19 +105,24 @@ public class AuthController : ControllerBase
     [HttpPost]
     [Route("GetUserToken")]
     [Authorize]
-    public async Task<IActionResult> GetUserToken(LoginRequest request)
+    public async Task<UserToken> GetUserToken(LoginRequest request)
     {
         var result = _context.UserTokens.FirstOrDefault(t => t.IsInActive == false && t.UserName == request.UserName);
+
+        if (result == null) return new();
+
+        if (string.IsNullOrWhiteSpace(result.Token))
+            return new();
 
         if (result.ExpirationDate < DateTime.UtcNow)
         {
             result.IsInActive = true;
             await _context.SaveChangesAsync();
 
-            return null;
+            return new();
         }
 
-        return Ok(result);
+        return result;
     }
 
     private async Task<UserToken> CreateNewUserToken(string userName, int expirationTimeInMinutes)
@@ -122,7 +130,7 @@ public class AuthController : ControllerBase
         var allChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         var random = new Random();
         var resultToken = new string(
-            Enumerable.Repeat(allChar, 5)
+            Enumerable.Repeat(allChar, 47)
                 .Select(token => token[random.Next(token.Length)]).ToArray());
 
         string authToken = resultToken.ToString();
@@ -137,8 +145,8 @@ public class AuthController : ControllerBase
         var result = _context.UserTokens.Add(newToken);
         await _context.SaveChangesAsync();
 
-        if (result.Entity is null)
-            return null;
+        if (string.IsNullOrWhiteSpace(result.Entity.Token))
+            return new();
 
         return newToken;
     }
