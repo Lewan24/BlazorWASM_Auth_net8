@@ -2,6 +2,7 @@
 @using WASMWithAuth.Shared
 @using Microsoft.AspNetCore.Authorization
 @inject HttpClient Http
+@inject CustomStateProvider provider
 
 @attribute [Authorize(Roles = "Admin")]
 
@@ -45,6 +46,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("api/WeatherForecast");
+        var userToken = await provider.GetUserToken();
+
+        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>($"api/WeatherForecast/GetWeather?token={userToken.Token}");
     }
 }

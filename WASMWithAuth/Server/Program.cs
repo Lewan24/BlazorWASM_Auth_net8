@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WASMWithAuth.Server.Data;
+using WASMWithAuth.Server.Data.Interfaces;
+using WASMWithAuth.Server.Data.Services;
 using WASMWithAuth.Server.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +25,9 @@ builder.Services.ConfigureApplicationCookie(options =>
         return Task.CompletedTask;
     };
 });
+
+builder.Services.AddScoped<ITokenValidationService, TokenValidationService>();
+
 builder.Services.AddControllers().AddNewtonsoftJson();
 
 var app = builder.Build();

@@ -1,7 +1,9 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using WASMWithAuth.Client.Authentication.Interfaces;
+using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
 
 namespace WASMWithAuth.Client.Authentication.Services
@@ -10,10 +12,12 @@ namespace WASMWithAuth.Client.Authentication.Services
     {
         private readonly IAuthService api;
         private CurrentUser _currentUser;
+        private NavigationManager _nav;
 
-        public CustomStateProvider(IAuthService api)
+        public CustomStateProvider(IAuthService api, NavigationManager nav)
         {
             this.api = api;
+            _nav = nav;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
@@ -65,6 +69,29 @@ namespace WASMWithAuth.Client.Authentication.Services
         {
             await api.Logout();
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+
+        public async Task<UserToken> GetUserToken(string? password = "")
+        {
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                if (api.UserToken is null)
+                    return null;
+
+                if (api.UserToken.ExpirationDate < DateTime.UtcNow)
+                    _nav.NavigateTo("/account/ConfirmPassword", true);
+
+                return api.UserToken;
+            }
+
+            if (await api.TryLogin(new LoginRequest() {Password = password, UserName = _currentUser.UserName}))
+            {
+                await api.RefreshToken(_currentUser.UserName);
+
+                return api.UserToken;
+            }
+
+            return null;
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
+using WASMWithAuth.Client.Authentication.Account;
 using WASMWithAuth.Client.Authentication.Interfaces;
+using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
 
 namespace WASMWithAuth.Client.Authentication.Services;
@@ -14,12 +17,29 @@ public class AuthService : IAuthService
         _httpClient = httpClient;
     }
 
+    public UserToken? UserToken { get; set; }
+
     public async Task Login(LoginRequest loginRequest)
     {
         var result = await _httpClient.PostAsJsonAsync("api/Auth/Login", loginRequest);
         if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
             throw new Exception(await result.Content.ReadAsStringAsync());
         result.EnsureSuccessStatusCode();
+
+        var result2 = await _httpClient.PostAsJsonAsync("api/Auth/GetUserToken", loginRequest);
+        result2.EnsureSuccessStatusCode();
+
+        var jsonstring = result2.Content.ReadAsStringAsync().Result;
+
+        UserToken = JsonSerializer.Deserialize<UserToken?>(jsonstring);
+    }
+
+    public async Task<bool> TryLogin(LoginRequest request)
+    {
+        var result =  await _httpClient.PostAsJsonAsync<LoginRequest>("api/Auth/TryLogin", request);
+        result.EnsureSuccessStatusCode();
+
+        return bool.Parse(result.Content.ReadAsStringAsync().Result);
     }
 
     public async Task Register(RegisterRequest registerRequest)
@@ -40,5 +60,13 @@ public class AuthService : IAuthService
     {
         var result = await _httpClient.GetFromJsonAsync<CurrentUser>("api/Auth/GetCurrentUser");
         return result;
+    }
+
+    public async Task RefreshToken(string username)
+    {
+        var result = await _httpClient.PostAsJsonAsync("api/Auth/RefreshToken", username);
+        result.EnsureSuccessStatusCode();
+
+        UserToken = JsonSerializer.Deserialize<UserToken>(result.Content.ReadAsStringAsync().Result);
     }
 }
