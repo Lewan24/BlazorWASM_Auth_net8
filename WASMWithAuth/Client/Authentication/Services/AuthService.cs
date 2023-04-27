@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WASMWithAuth.Client.Authentication.Account;
 using WASMWithAuth.Client.Authentication.Interfaces;
 using WASMWithAuth.Shared.Entities;
@@ -20,7 +21,7 @@ public class AuthService : IAuthService
 
     public UserToken? UserToken { get; set; } = new();
 
-    public async Task Login(LoginRequest loginRequest)
+    public async Task<string> Login(LoginRequest loginRequest)
     {
         var result = await _httpClient.PostAsJsonAsync("api/Auth/Login", loginRequest);
         if (result.StatusCode == System.Net.HttpStatusCode.BadRequest)
@@ -33,6 +34,8 @@ public class AuthService : IAuthService
         var jsonstring = await result2.Content.ReadAsStringAsync();
 
         UserToken = JsonConvert.DeserializeObject<UserToken>(jsonstring);
+
+        return UserToken.Token;
     }
 
     public async Task<bool> TryLogin(LoginRequest request)
@@ -40,7 +43,9 @@ public class AuthService : IAuthService
         var result =  await _httpClient.PostAsJsonAsync<LoginRequest>("api/Auth/TryLogin", request);
         result.EnsureSuccessStatusCode();
 
-        return bool.Parse(result.Content.ReadAsStringAsync().Result);
+        var resultOfLogin = JsonConvert.DeserializeObject<bool>(await result.Content.ReadAsStringAsync());
+
+        return resultOfLogin;
     }
 
     public async Task Register(RegisterRequest registerRequest)
@@ -49,6 +54,20 @@ public class AuthService : IAuthService
         if (result.StatusCode == HttpStatusCode.BadRequest)
             throw new Exception(await result.Content.ReadAsStringAsync());
         result.EnsureSuccessStatusCode();
+    }
+
+    public async Task<string> EncryptToken(string token, string key)
+    {
+        var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetEncryptorDecryptor", ("y",token, key));
+
+        return await result.Content.ReadAsStringAsync();
+    }
+
+    public async Task<string> DecryptToken(string encryptedtoken, string key)
+    {
+        var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetEncryptorDecryptor", ("n", encryptedtoken, key));
+
+        return await result.Content.ReadAsStringAsync();
     }
 
     public async Task Logout()
@@ -63,10 +82,9 @@ public class AuthService : IAuthService
         return result;
     }
 
-    public async Task RefreshToken(string username)
+    public async Task RefreshToken(LoginRequest request)
     {
-        //TODO: Returns basically badrequest. Cant refresh token while on main page token is null
-        var result = await _httpClient.PostAsJsonAsync("api/Auth/RefreshToken", username);
+        var result = await _httpClient.PostAsJsonAsync("api/Auth/RefreshToken", request);
         result.EnsureSuccessStatusCode();
 
         UserToken = JsonConvert.DeserializeObject<UserToken>(await result.Content.ReadAsStringAsync());

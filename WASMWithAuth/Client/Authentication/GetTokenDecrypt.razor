@@ -1,0 +1,27 @@
+﻿@page "/GetParam/{param}"
+@using WASMWithAuth.Client.Authentication.Interfaces
+
+@inject NavigationManager _nav
+@inject CustomStateProvider _provider
+@inject IAuthService _AuthService
+
+@code {
+    [Parameter]
+    public string param { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var decryptedtoken = await _provider.DecryptToken(param, "a@fs@$!v:sg%SMF8");
+            _AuthService.UserToken.Token = decryptedtoken;
+            _AuthService.UserToken.UserName = (await _provider.GetAuthenticationStateAsync()).User.Identity.Name;
+            _nav.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }        
+    }
+
+}

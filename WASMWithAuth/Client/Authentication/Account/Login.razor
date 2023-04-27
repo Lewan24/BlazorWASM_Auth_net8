@@ -1,6 +1,8 @@
 ﻿@page "/account/login"
 @using Microsoft.AspNetCore.Components
+@using WASMWithAuth.Client.Authentication.Interfaces
 @using WASMWithAuth.Shared.Entities.Models
+
 @layout AuthLayout
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
@@ -43,8 +45,11 @@
         error = null;
         try
         {
-            await authStateProvider.Login(loginRequest);
-            navigationManager.NavigateTo("");
+            var token = await authStateProvider.Login(loginRequest);
+            var encryptedtoken = await authStateProvider.EncryptToken(token, "a@fs@$!v:sg%SMF8");
+            // TODO: Wywala blad przy szyfrowaniu
+            error = encryptedtoken;
+    //navigationManager.NavigateTo($"/GetParam/{encryptedtoken}", true);
         }
         catch (Exception ex)
         {

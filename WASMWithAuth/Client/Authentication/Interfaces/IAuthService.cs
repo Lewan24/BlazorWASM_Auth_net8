@@ -6,10 +6,12 @@ public interface IAuthService
 {
     UserToken? UserToken { get; set; }
 
-    Task Login(LoginRequest loginRequest);
+    Task<string> Login(LoginRequest loginRequest);
     Task<bool> TryLogin(LoginRequest request);
     Task Register(RegisterRequest registerRequest);
+    Task<string> EncryptToken(string token, string key);
+    Task<string> DecryptToken(string encryptedtoken, string key);
     Task Logout();
     Task<CurrentUser> GetCurrentUserInfo();
-    Task RefreshToken(string username);
+    Task RefreshToken(LoginRequest request);
 }

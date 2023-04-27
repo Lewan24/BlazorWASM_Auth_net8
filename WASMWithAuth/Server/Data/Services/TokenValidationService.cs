@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using WASMWithAuth.Server.Data.Interfaces;
 using WASMWithAuth.Server.Models;
+using WASMWithAuth.Shared.Entities;
 
 namespace WASMWithAuth.Server.Data.Services;
 
@@ -18,24 +19,19 @@ public class TokenValidationService : ITokenValidationService
         _context = context;
     }
 
-    public Task<bool> CheckValidation(string? token, string? userName)
+    public async Task<bool> CheckValidation(string? token, string? userName)
     {
         var userToken = _context.UserTokens.FirstOrDefault(t => t.Token == token && t.UserName == userName && t.IsInActive == false);
 
         if (string.IsNullOrWhiteSpace(userToken.Token))
-            return Task.FromResult(false);
+            return false;
 
-        if (!CheckExpiration(token).Result)
-            return Task.FromResult(false);
-
-        return Task.FromResult(true);
+        return await CheckExpiration(userToken);
     }
 
-    public Task<bool> CheckExpiration(string token)
+    public Task<bool> CheckExpiration(UserToken userToken)
     {
-        var userToken = _context.UserTokens.FirstOrDefault(t => t.Token == token);
-
-        if (userToken.ExpirationDate < DateTime.Now)
+        if (userToken.ExpirationDate < DateTime.UtcNow)
             return Task.FromResult(false);
 
         return Task.FromResult(true);

@@ -55,7 +55,7 @@ else
     {
         try
         {
-            var userToken = await provider.GetUserToken();
+            var userToken = await provider.GetUserToken(pageName: "fetchdata");
 
             forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>($"api/WeatherForecast/GetWeather?token={userToken.Token}");
             error = "";

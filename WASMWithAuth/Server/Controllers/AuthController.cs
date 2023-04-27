@@ -8,6 +8,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using WASMWithAuth.Client;
 using WASMWithAuth.Server.Data;
+using WASMWithAuth.Server.Data.Interfaces;
 using WASMWithAuth.Server.Models;
 using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
@@ -21,12 +22,14 @@ public class AuthController : ControllerBase
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ApplicationDBContext _context;
+    private readonly ITokenValidationService _tokenValidationService;
 
-    public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDBContext context)
+    public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDBContext context, ITokenValidationService tokenValidationService)
     {
         _userManager = userManager;
         _signInManager = signInManager;
         _context = context;
+        _tokenValidationService = tokenValidationService;
     }
 
     [HttpPost]
@@ -52,12 +55,12 @@ public class AuthController : ControllerBase
     [HttpPost]
     [Authorize]
     [Route("TryLogin")]
-    public async Task<IActionResult> TryLogin(LoginRequest request)
+    public async Task<bool> TryLogin(LoginRequest request)
     {
         var user = await _userManager.FindByNameAsync(request.UserName);
         var result = await _userManager.CheckPasswordAsync(user, request.Password);
 
-        return Ok(result);
+        return result;
     }
 
     [HttpPost]
@@ -75,6 +78,17 @@ public class AuthController : ControllerBase
             UserName = request.UserName,
             Password = request.Password,
         });
+    }
+
+    [HttpPost]
+    [Authorize]
+    [Route("GetEncryptorDecryptor")]
+    public IActionResult GetEncryptorDecryptor((string encrypt, string token, string key) request)
+    {
+        if (request.encrypt == "y")
+            return Ok(EncryptorDecryptor.Encrypt(request.token, request.key));
+
+        return Ok(EncryptorDecryptor.Decrypt(request.token, request.key));
     }
 
     [Authorize]
@@ -111,10 +125,7 @@ public class AuthController : ControllerBase
 
         if (result == null) return new();
 
-        if (string.IsNullOrWhiteSpace(result.Token))
-            return new();
-
-        if (result.ExpirationDate < DateTime.UtcNow)
+        if (!await _tokenValidationService.CheckValidation(result.Token, request.UserName))
         {
             result.IsInActive = true;
             await _context.SaveChangesAsync();
@@ -153,7 +164,9 @@ public class AuthController : ControllerBase
 
     private async Task<int> CheckActiveTokens(string logoutingUserName)
     {
-        _context.UserTokens.FirstOrDefault(t => t.UserName == logoutingUserName && t.IsInActive == false).IsInActive = true;
+        foreach (var userToken in _context.UserTokens.Where(t => t.UserName == logoutingUserName && t.IsInActive == false))
+            userToken.IsInActive = true;
+        
         await _context.SaveChangesAsync();
 
         await _signInManager.SignOutAsync();
@@ -176,10 +189,13 @@ public class AuthController : ControllerBase
     [HttpPost]
     [Authorize]
     [Route("RefreshToken")]
-    public async Task<IActionResult> RefreshToken(string userName)
+    public async Task<UserToken> RefreshToken(LoginRequest request)
     {
-        var result = await CreateNewUserToken(userName, 20);
+        var resultOfLoginTry = await TryLogin(request);
         
-        return Ok(result);
+        if (resultOfLoginTry)
+             return await CreateNewUserToken(request.UserName, 20);
+
+        return new(){IsInActive = true};
     }
 }

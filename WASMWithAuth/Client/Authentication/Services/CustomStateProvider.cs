@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using WASMWithAuth.Client.Authentication.Account;
 using WASMWithAuth.Client.Authentication.Interfaces;
 using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
@@ -53,10 +54,16 @@ namespace WASMWithAuth.Client.Authentication.Services
             return _currentUser;
         }
 
-        public async Task Login(LoginRequest loginRequest)
+        public async Task<string> Login(LoginRequest loginRequest)
         {
-            await api.Login(loginRequest);
+            var token = await api.Login(loginRequest);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+            return token;
+        }
+
+        public async Task<bool> TryLogin(string password)
+        {
+            return await api.TryLogin(new LoginRequest{Password = password, UserName = _currentUser.UserName});
         }
 
         public async Task Register(RegisterRequest registerRequest)
@@ -65,30 +72,34 @@ namespace WASMWithAuth.Client.Authentication.Services
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
+        public async Task<string> EncryptToken(string token, string key)
+        {
+            return await api.EncryptToken(token, key);
+        }
+
+        public async Task<string> DecryptToken(string token, string key)
+        {
+            return await api.DecryptToken(token, key);
+        }
+
         public async Task Logout()
         {
             await api.Logout();
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
-        public async Task<UserToken> GetUserToken(string? password = "")
+        public async Task<UserToken> GetUserToken(string? password = "", string? pageName = "")
         {
             if (string.IsNullOrWhiteSpace(password))
             {
                 if (string.IsNullOrWhiteSpace(api.UserToken.Token) || api.UserToken.ExpirationDate < DateTime.UtcNow)
-                    _nav.NavigateTo("/account/ConfirmPassword");
+                    _nav.NavigateTo($"/account/ConfirmPassword/{pageName}");
                 return api.UserToken;
             }
+            
+            await api.RefreshToken(new LoginRequest() { Password = password, UserName = _currentUser.UserName });
 
-            if (await api.TryLogin(new LoginRequest() {Password = password, UserName = _currentUser.UserName}))
-            {
-                await api.RefreshToken(_currentUser.UserName);
-
-                return api.UserToken;
-            }
-
-            _nav.NavigateTo("/account/ConfirmPassword");
-            return null;
+            return api.UserToken;
         }
     }
 }
