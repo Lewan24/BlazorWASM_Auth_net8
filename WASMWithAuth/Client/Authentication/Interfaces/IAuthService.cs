@@ -9,8 +9,8 @@ public interface IAuthService
     Task<string> Login(LoginRequest loginRequest);
     Task<bool> TryLogin(LoginRequest request);
     Task Register(RegisterRequest registerRequest);
-    Task<string> EncryptToken(string token, string key);
-    Task<string> DecryptToken(string encryptedtoken, string key);
+    Task<string> EncryptToken(TokenKeyModel request);
+    Task<string> DecryptToken(TokenKeyModel request);
     Task Logout();
     Task<CurrentUser> GetCurrentUserInfo();
     Task RefreshToken(LoginRequest request);

@@ -56,16 +56,16 @@ public class AuthService : IAuthService
         result.EnsureSuccessStatusCode();
     }
 
-    public async Task<string> EncryptToken(string token, string key)
+    public async Task<string> EncryptToken(TokenKeyModel request)
     {
-        var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetEncryptorDecryptor", ("y",token, key));
+        var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetEncryption", request);
 
         return await result.Content.ReadAsStringAsync();
     }
 
-    public async Task<string> DecryptToken(string encryptedtoken, string key)
+    public async Task<string> DecryptToken(TokenKeyModel request)
     {
-        var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetEncryptorDecryptor", ("n", encryptedtoken, key));
+        var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetDecryption", request);
 
         return await result.Content.ReadAsStringAsync();
     }

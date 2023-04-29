@@ -1,5 +1,6 @@
 ﻿@page "/GetParam/{param}"
 @using WASMWithAuth.Client.Authentication.Interfaces
+@using WASMWithAuth.Shared.Entities.Models
 
 @inject NavigationManager _nav
 @inject CustomStateProvider _provider
@@ -13,7 +14,7 @@
     {
         try
         {
-            var decryptedtoken = await _provider.DecryptToken(param, "a@fs@$!v:sg%SMF8");
+            var decryptedtoken = await _provider.DecryptToken(new TokenKeyModel(param, "a@fs@$!v:sg%SMF8"));
             _AuthService.UserToken.Token = decryptedtoken;
             _AuthService.UserToken.UserName = (await _provider.GetAuthenticationStateAsync()).User.Identity.Name;
             _nav.NavigateTo("/");

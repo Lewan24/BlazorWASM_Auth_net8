@@ -72,14 +72,14 @@ namespace WASMWithAuth.Client.Authentication.Services
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
-        public async Task<string> EncryptToken(string token, string key)
+        public async Task<string> EncryptToken(TokenKeyModel request)
         {
-            return await api.EncryptToken(token, key);
+            return await api.EncryptToken(request);
         }
 
-        public async Task<string> DecryptToken(string token, string key)
+        public async Task<string> DecryptToken(TokenKeyModel request)
         {
-            return await api.DecryptToken(token, key);
+            return await api.DecryptToken(request);
         }
 
         public async Task Logout()

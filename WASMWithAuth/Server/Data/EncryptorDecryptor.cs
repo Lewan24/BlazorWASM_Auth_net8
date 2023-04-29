@@ -7,12 +7,11 @@ namespace WASMWithAuth.Server.Data
     {
         public static string Encrypt(string plainText, string key)
         {
-            // generujemy losowy wektor inicjujący
             byte[] iv = new byte[16];
             using (Aes aes = Aes.Create())
             {
                 aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.GenerateIV(); // generujemy losowy wektor inicjujący
+                aes.GenerateIV();
                 iv = aes.IV;
 
                 ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
@@ -23,40 +22,54 @@ namespace WASMWithAuth.Server.Data
                     {
                         using (StreamWriter streamWriter = new StreamWriter(cryptoStream))
                         {
-                            // zapisujemy tekst do strumienia
                             streamWriter.Write(plainText);
                         }
                     }
-                    // zwracamy zaszyfrowany tekst razem z wektorem inicjującym
-                    return Convert.ToBase64String(iv.Concat(memoryStream.ToArray()).ToArray());
+                    byte[] cipherText = memoryStream.ToArray();
+                    byte[] resultBytes = new byte[iv.Length + cipherText.Length];
+                    Buffer.BlockCopy(iv, 0, resultBytes, 0, iv.Length);
+                    Buffer.BlockCopy(cipherText, 0, resultBytes, iv.Length, cipherText.Length);
+                    return Convert.ToBase64String(resultBytes);
                 }
             }
         }
 
         public static string Decrypt(string cipherText, string key)
         {
-            byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(cipherText);
-
-            using (Aes aes = Aes.Create())
+            try
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
+                byte[] iv = new byte[16];
+                byte[] buffer = Convert.FromBase64String(cipherText);
 
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+                Buffer.BlockCopy(buffer, 0, iv, 0, iv.Length);
 
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
+                byte[] cipherBytes = new byte[buffer.Length - iv.Length];
+                Buffer.BlockCopy(buffer, iv.Length, cipherBytes, 0, cipherBytes.Length);
+
+                using (Aes aes = Aes.Create())
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    aes.Key = Encoding.UTF8.GetBytes(key);
+                    aes.IV = iv;
+
+                    ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+
+                    using (MemoryStream memoryStream = new MemoryStream(cipherBytes))
                     {
-                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+                        using (CryptoStream cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read))
                         {
-                            return streamReader.ReadToEnd();
+                            using (StreamReader streamReader = new StreamReader(cryptoStream))
+                            {
+                                return streamReader.ReadToEnd();
+                            }
                         }
                     }
                 }
             }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
-
     }
+
 }

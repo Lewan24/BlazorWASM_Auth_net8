@@ -46,10 +46,11 @@
         try
         {
             var token = await authStateProvider.Login(loginRequest);
-            var encryptedtoken = await authStateProvider.EncryptToken(token, "a@fs@$!v:sg%SMF8");
-            // TODO: Wywala blad przy szyfrowaniu
+            var encryptedtoken = await authStateProvider.EncryptToken(new TokenKeyModel(token, "a@fs@$!v:sg%SMF8"));
+
             error = encryptedtoken;
-    //navigationManager.NavigateTo($"/GetParam/{encryptedtoken}", true);
+            error = "";
+            navigationManager.NavigateTo($"/GetParam/{encryptedtoken}", true);
         }
         catch (Exception ex)
         {

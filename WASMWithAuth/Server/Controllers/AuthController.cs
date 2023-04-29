@@ -82,12 +82,17 @@ public class AuthController : ControllerBase
 
     [HttpPost]
     [Authorize]
-    [Route("GetEncryptorDecryptor")]
-    public IActionResult GetEncryptorDecryptor((string encrypt, string token, string key) request)
+    [Route("GetEncryption")]
+    public IActionResult GetEncryption(TokenKeyModel request)
     {
-        if (request.encrypt == "y")
-            return Ok(EncryptorDecryptor.Encrypt(request.token, request.key));
+        return Ok(EncryptorDecryptor.Encrypt(request.token, request.key));
+    }
 
+    [HttpPost]
+    [Authorize]
+    [Route("GetDecryption")]
+    public IActionResult GetDecryption(TokenKeyModel request)
+    {
         return Ok(EncryptorDecryptor.Decrypt(request.token, request.key));
     }
 

@@ -23,6 +23,9 @@ public class TokenValidationService : ITokenValidationService
     {
         var userToken = _context.UserTokens.FirstOrDefault(t => t.Token == token && t.UserName == userName && t.IsInActive == false);
 
+        if (userToken is null)
+            return false;
+
         if (string.IsNullOrWhiteSpace(userToken.Token))
             return false;
 
