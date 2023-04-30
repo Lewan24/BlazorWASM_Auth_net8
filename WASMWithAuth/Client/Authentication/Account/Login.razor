@@ -46,7 +46,7 @@
 
             Error = encryptedToken;
 
-            NavigationManager.NavigateTo($"/authorizeuser/{encryptedToken}", true);
+            NavigationManager.NavigateTo($"/authorizeuser?Token={encryptedToken}", true);
         }
         catch (Exception ex)
         {

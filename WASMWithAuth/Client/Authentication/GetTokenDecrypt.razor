@@ -1,4 +1,4 @@
-﻿@page "/authorizeuser/{Token}"
+﻿@page "/authorizeuser"
 
 @using WASMWithAuth.Client.Authentication.Interfaces
 @using WASMWithAuth.Shared.Entities.Models
@@ -7,32 +7,20 @@
 @inject CustomStateProvider Provider
 @inject IAuthService AuthService
 
-<p>@Token</p>
-<p>@AuthService.UserToken.Token</p>
-<p>@AuthService.UserToken.UserName</p>
-<p>@error</p>
+@inject NavigationManager navigationManager
+@using Microsoft.AspNetCore.WebUtilities @*for QueryHelpers*@
 
 @code {
-    [Parameter]
-    public string? Token { get; set; }
-
-    string? error = "";
-
     protected override async Task OnInitializedAsync()
     {
-        try
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri); //you can use IURIHelper for older versions
+
+        if(QueryHelpers.ParseQuery(uri.Query).TryGetValue("Token", out var token))
         {
-            var decrypted_Token = await Provider.DecryptToken(new TokenKeyModel(Token, "a@fs@$!v:sg%SMF8"));
-            AuthService.UserToken.Token = decrypted_Token;
+            AuthService.UserToken.Token = await Provider.DecryptToken(new TokenKeyModel(token, "a@fs@$!v:sg%SMF8"));
             AuthService.UserToken.UserName = (await Provider.GetAuthenticationStateAsync()).User.Identity?.Name;
 
-            StateHasChanged();
-            //Nav.NavigateTo("/");
+            Nav.NavigateTo("/");
         }
-        catch (Exception e)
-        {
-            error = e.Message;
-        }        
     }
-
 }

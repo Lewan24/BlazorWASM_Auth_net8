@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 using WASMWithAuth.Shared.Entities.Models;
 
 namespace WASMWithAuth.Server.Data;
@@ -27,13 +28,15 @@ public static class Encryptor
         var resultBytes = new byte[iv.Length + cipherText.Length];
         Buffer.BlockCopy(iv, 0, resultBytes, 0, iv.Length);
         Buffer.BlockCopy(cipherText, 0, resultBytes, iv.Length, cipherText.Length);
-        return Convert.ToBase64String(resultBytes);
+        var base64text = Convert.ToBase64String(resultBytes);
+        return HttpUtility.UrlEncode(base64text);
     }
 
     public static string Decrypt(TokenKeyModel request)
     {
         try
         {
+            //var decodedtext = HttpUtility.UrlDecode(request.token);
             var iv = new byte[16];
             var buffer = Convert.FromBase64String(request.token);
 

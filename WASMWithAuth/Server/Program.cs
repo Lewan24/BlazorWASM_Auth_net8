@@ -24,7 +24,7 @@ builder.Services.ConfigureApplicationCookie(options =>
         context.RedirectUri = "/";
         return Task.CompletedTask;
     };
-    options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 });
 
 builder.Services.AddScoped<ITokenValidationService, TokenValidationService>();
