@@ -1,12 +1,9 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using WASMWithAuth.Client.Authentication.Account;
 using WASMWithAuth.Client.Authentication.Interfaces;
 using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
-using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace WASMWithAuth.Client.Authentication.Services;
 
@@ -30,22 +27,18 @@ public class AuthService : IAuthService
 
         var result2 = await _httpClient.PostAsJsonAsync("api/Auth/GetUserToken", loginRequest);
         result2.EnsureSuccessStatusCode();
-
-        var jsonstring = await result2.Content.ReadAsStringAsync();
-
-        UserToken = JsonConvert.DeserializeObject<UserToken>(jsonstring);
+        
+        UserToken = JsonConvert.DeserializeObject<UserToken>(await result2.Content.ReadAsStringAsync());
 
         return UserToken.Token;
     }
 
     public async Task<bool> TryLogin(LoginRequest request)
     {
-        var result =  await _httpClient.PostAsJsonAsync<LoginRequest>("api/Auth/TryLogin", request);
+        var result =  await _httpClient.PostAsJsonAsync("api/Auth/TryLogin", request);
         result.EnsureSuccessStatusCode();
 
-        var resultOfLogin = JsonConvert.DeserializeObject<bool>(await result.Content.ReadAsStringAsync());
-
-        return resultOfLogin;
+        return JsonConvert.DeserializeObject<bool>(await result.Content.ReadAsStringAsync());
     }
 
     public async Task Register(RegisterRequest registerRequest)
@@ -59,14 +52,14 @@ public class AuthService : IAuthService
     public async Task<string> EncryptToken(TokenKeyModel request)
     {
         var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetEncryption", request);
-
+        result.EnsureSuccessStatusCode();
         return await result.Content.ReadAsStringAsync();
     }
 
     public async Task<string> DecryptToken(TokenKeyModel request)
     {
         var result = await _httpClient.PostAsJsonAsync($"api/Auth/GetDecryption", request);
-
+        result.EnsureSuccessStatusCode();
         return await result.Content.ReadAsStringAsync();
     }
 

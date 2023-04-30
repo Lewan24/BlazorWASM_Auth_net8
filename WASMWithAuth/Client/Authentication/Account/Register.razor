@@ -1,54 +1,54 @@
 ﻿@page "/account/register"
+
 @using Microsoft.AspNetCore.Components
 @using WASMWithAuth.Shared.Entities.Models
-@using Microsoft.AspNetCore.Authorization
+
 @layout AuthLayout
+
 @inject NavigationManager navigationManager
 @inject CustomStateProvider authStateProvider
 
-<h2 class="h2 font-weight-normal login-title">
-   Register
-</h2>
+<MudContainer Class="d-flex flex-column justify-content pa-4 mt-16">
+    <h2 class="h2 font-weight-normal login-title">Register</h2>
 
-<EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="registerRequest">
-    <DataAnnotationsValidator />
+    <EditForm Model="@RegisterRequest" OnValidSubmit="OnSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
 
-    <label for="inputUsername" class="sr-only">User Name</label>
-    <InputText id="inputUsername" class="form-control" placeholder="Username" autofocus @bind-Value="@registerRequest.UserName" />
-    <ValidationMessage For="@(() => registerRequest.UserName)" />
-
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="@registerRequest.Password" />
-    <ValidationMessage For="@(() => registerRequest.Password)" />
-
-    <label for="inputPasswordConfirm" class="sr-only">Password Confirmation</label>
-    <InputText type="password" id="inputPasswordConfirm" class="form-control" placeholder="Password Confirmation" @bind-Value="@registerRequest.PasswordConfirm" />
-    <ValidationMessage For="@(() => registerRequest.PasswordConfirm)" />
-
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Create account</button>
-
-    <label class="text-danger">@error</label>
-    <NavLink href="account/login">
-        <h6 class="font-weight-normal text-center">Already have an account? Click here to login</h6>
-    </NavLink>
-</EditForm>
+        <MudCard Class="my-4">
+            <MudCardContent>
+                <MudTextField Label="First name" HelperText="Max. 8 characters"
+                              @bind-Value="RegisterRequest.UserName" For="@(() => RegisterRequest.UserName)"/>
+                <MudTextField Label="Password" HelperText="Choose a strong password" Class="mt-3"
+                              @bind-Value="RegisterRequest.Password" For="@(() => RegisterRequest.Password)" InputType="InputType.Password"/>
+                <MudTextField Label="Password" HelperText="Repeat the password" Class="mt-3"
+                              @bind-Value="RegisterRequest.PasswordConfirm" For="@(() => RegisterRequest.PasswordConfirm)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Register</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+    
+    <MudButton StartIcon="@Icons.Material.Filled.ChangeCircle" Href="/account/login">Login -></MudButton>
+</MudContainer>
 
 @functions{
 
-    RegisterRequest registerRequest { get; set; } = new RegisterRequest();
-    string error { get; set; }
+    RegisterRequest? RegisterRequest { get; set; } = new();
+    string? Error { get; set; }
 
     async Task OnSubmit()
     {
-        error = null;
+        Error = null;
         try
         {
-            await authStateProvider.Register(registerRequest);
+            await authStateProvider.Register(RegisterRequest);
             navigationManager.NavigateTo("", true);
         }
         catch (Exception ex)
         {
-            error = ex.Message;
+            Error = ex.Message;
         }
     }
 }

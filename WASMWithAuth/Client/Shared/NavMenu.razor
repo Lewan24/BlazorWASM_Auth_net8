@@ -1,5 +1,13 @@
 ﻿<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-    <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix">Counter</MudNavLink>
-    <MudNavLink Href="/fetchdata" Match="NavLinkMatch.Prefix">Fetch data</MudNavLink>
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
+            <MudNavLink Href="/counter" Match="NavLinkMatch.Prefix">Counter</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="Admin">
+        <Authorized>
+            <MudNavLink Href="/fetchdata" Match="NavLinkMatch.Prefix">Fetch data</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
 </MudNavMenu>

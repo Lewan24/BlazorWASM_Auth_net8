@@ -1,12 +1,8 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 using System.Text.Json;
-using WASMWithAuth.Client;
 using WASMWithAuth.Server.Data;
 using WASMWithAuth.Server.Data.Interfaces;
 using WASMWithAuth.Server.Models;
@@ -83,27 +79,17 @@ public class AuthController : ControllerBase
     [HttpPost]
     [Authorize]
     [Route("GetEncryption")]
-    public IActionResult GetEncryption(TokenKeyModel request)
-    {
-        return Ok(EncryptorDecryptor.Encrypt(request.token, request.key));
-    }
+    public IActionResult GetEncryption(TokenKeyModel request) => Ok(Encryptor.Encrypt(request));
 
-    [HttpPost]
+    [HttpPost]                                                              
     [Authorize]
     [Route("GetDecryption")]
-    public IActionResult GetDecryption(TokenKeyModel request)
-    {
-        return Ok(EncryptorDecryptor.Decrypt(request.token, request.key));
-    }
+    public IActionResult GetDecryption(TokenKeyModel request) => Ok(Encryptor.Decrypt(request));
 
     [Authorize]
     [HttpPost]
     [Route("Logout")]
-    public async Task<IActionResult> Logout()
-    {
-        await CheckActiveTokens(GetCurrentUserInfo().UserName);
-        return Ok();
-    }
+    public async Task<IActionResult> Logout() => Ok(await CheckActiveTokens(GetCurrentUserInfo().UserName));
 
     [HttpGet]
     [Route("GetCurrentUser")]
@@ -130,7 +116,7 @@ public class AuthController : ControllerBase
 
         if (result == null) return new();
 
-        if (!await _tokenValidationService.CheckValidation(result.Token, request.UserName))
+        if (!_tokenValidationService.CheckValidation(result.Token, request.UserName))
         {
             result.IsInActive = true;
             await _context.SaveChangesAsync();
@@ -149,13 +135,11 @@ public class AuthController : ControllerBase
             Enumerable.Repeat(allChar, 47)
                 .Select(token => token[random.Next(token.Length)]).ToArray());
 
-        string authToken = resultToken.ToString();
-
         UserToken newToken = new()
         {
             UserName = userName,
             ExpirationDate = DateTime.UtcNow.AddMinutes(expirationTimeInMinutes),
-            Token = authToken
+            Token = resultToken
         };
 
         var result = _context.UserTokens.Add(newToken);

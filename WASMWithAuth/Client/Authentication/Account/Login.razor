@@ -1,60 +1,57 @@
 ﻿@page "/account/login"
+
 @using Microsoft.AspNetCore.Components
-@using WASMWithAuth.Client.Authentication.Interfaces
 @using WASMWithAuth.Shared.Entities.Models
 
 @layout AuthLayout
-@inject NavigationManager navigationManager
-@inject CustomStateProvider authStateProvider
 
-<h2 class="h2 font-weight-normal login-title">
-    Login
-</h2>
+@inject NavigationManager NavigationManager
+@inject CustomStateProvider AuthStateProvider
 
-<EditForm class="form-signin" OnValidSubmit="OnSubmit" Model="loginRequest">
-    <DataAnnotationsValidator />
+<MudContainer Class="d-flex flex-column justify-content pa-4 mt-16">
+    <h2 class="h2 font-weight-normal login-title">Login</h2>
 
-    <label for="inputUsername" class="sr-only">User Name</label>
-    <InputText id="inputUsername" class="form-control" @bind-Value="loginRequest.UserName" autofocus placeholder="Username" />
-    <ValidationMessage For="@(() => loginRequest.UserName)" />
+    <EditForm Model="@LoginRequest" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
 
-    <label for="inputPassword" class="sr-only">Password</label>
-    <InputText type="password" id="inputPassword" class="form-control" placeholder="Password" @bind-Value="loginRequest.Password" />
-    <ValidationMessage For="@(() => loginRequest.Password)" />
+        <MudCard Class="my-4">
+            <MudCardContent>
+                <MudTextField Label="First name" HelperText="Max. 8 characters"
+                              @bind-Value="LoginRequest.UserName" For="@(() => LoginRequest.UserName)"/>
 
-    <div class="form-check m-3">
-        <InputCheckbox id="inputRememberMe" class="form-check-input" @bind-Value="@loginRequest.RememberMe" />
-        <label class="form-check-label" for="inputRememberMe">Remember Me</label>
-    </div>
+                <MudTextField Label="Password" Class="mt-3"
+                              @bind-Value="LoginRequest.Password" For="@(() => LoginRequest.Password)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Log in</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
 
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <MudButton StartIcon="@Icons.Material.Filled.ChangeCircle" Href="/account/register">Register -></MudButton>
+</MudContainer>
 
-    <label class="text-danger">@error</label>
+@code {
+    LoginRequest? LoginRequest { get; set; } = new();
+    string? Error { get; set; }
 
-    <NavLink href="account/register">
-        <h6 class="font-weight-normal text-center">Create account</h6>
-    </NavLink>
-</EditForm>
-
-@code{
-    LoginRequest loginRequest { get; set; } = new LoginRequest();
-    string error { get; set; }
-
-    async Task OnSubmit()
+    private async Task OnValidSubmit()
     {
-        error = null;
+        Error = null;
         try
         {
-            var token = await authStateProvider.Login(loginRequest);
-            var encryptedtoken = await authStateProvider.EncryptToken(new TokenKeyModel(token, "a@fs@$!v:sg%SMF8"));
+            var token = await AuthStateProvider.Login(LoginRequest);
+            var encryptedToken = await AuthStateProvider.EncryptToken(new TokenKeyModel(token, "a@fs@$!v:sg%SMF8"));
 
-            error = encryptedtoken;
-            error = "";
-            navigationManager.NavigateTo($"/GetParam/{encryptedtoken}", true);
+            Error = encryptedToken;
+
+            NavigationManager.NavigateTo($"/authorizeuser/{encryptedToken}", true);
         }
         catch (Exception ex)
         {
-            error = ex.Message;
+            Error = ex.Message;
         }
     }
+
 }

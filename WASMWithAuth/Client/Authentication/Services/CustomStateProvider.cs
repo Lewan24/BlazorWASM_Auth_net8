@@ -2,104 +2,106 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
-using WASMWithAuth.Client.Authentication.Account;
 using WASMWithAuth.Client.Authentication.Interfaces;
 using WASMWithAuth.Shared.Entities;
 using WASMWithAuth.Shared.Entities.Models;
 
-namespace WASMWithAuth.Client.Authentication.Services
+#pragma warning disable CS8603
+
+namespace WASMWithAuth.Client.Authentication.Services;
+
+public class CustomStateProvider : AuthenticationStateProvider
 {
-    public class CustomStateProvider : AuthenticationStateProvider
+    private readonly IAuthService _api;
+    private readonly NavigationManager _nav;
+
+    private CurrentUser _currentUser;
+
+    public CustomStateProvider(IAuthService api, NavigationManager nav)
     {
-        private readonly IAuthService api;
-        private CurrentUser _currentUser;
-        private NavigationManager _nav;
+        _api = api;
+        _nav = nav;
+    }
 
-        public CustomStateProvider(IAuthService api, NavigationManager nav)
+    public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+    {
+        var identity = new ClaimsIdentity();
+        try
         {
-            this.api = api;
-            _nav = nav;
-        }
-
-        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
-        {
-            var identity = new ClaimsIdentity();
-            try
+            var userInfo = await CurrentUserInfo();
+            if (userInfo.IsAuthenticated)
             {
-                var userInfo = await CurrentUserInfo();
-                if (userInfo.IsAuthenticated)
-                {
-                    var claims = new[] { new Claim(ClaimTypes.Name, _currentUser.UserName) }.Concat(_currentUser.Claims.Select(c => new Claim(c.Key, c.Value))).ToList();
-                    var roles = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
-                    claims.Remove(roles);
-                    var rolesString = JsonSerializer.Deserialize<string[]>(roles.Value);
-                    foreach (var role in rolesString)
-                    {
+                var claims = new[] { new Claim(ClaimTypes.Name, _currentUser.UserName) }.Concat(_currentUser.Claims.Select(c => new Claim(c.Key, c.Value))).ToList();
+                var roles = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+                claims.Remove(roles);
+                var rolesString = JsonSerializer.Deserialize<string[]>(roles.Value);
+
+                if (rolesString != null)
+                    foreach (var role in rolesString!)
                         claims.Add(new Claim(ClaimTypes.Role, role));
-                    }
-                    identity = new ClaimsIdentity(claims, "Server authentication");
-                }
+
+                identity = new ClaimsIdentity(claims, "Server authentication");
             }
-            catch (HttpRequestException ex)
-            {
-                Console.WriteLine("Request failed:" + ex.ToString());
-            }
-            return new AuthenticationState(new ClaimsPrincipal(identity));
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine("Request failed:" + ex);
         }
 
-        private async Task<CurrentUser> CurrentUserInfo()
-        {
-            if (_currentUser is not null && _currentUser.IsAuthenticated) return _currentUser;
-            _currentUser = await api.GetCurrentUserInfo();
-            return _currentUser;
-        }
+        return new AuthenticationState(new ClaimsPrincipal(identity));
+    }
 
-        public async Task<string> Login(LoginRequest loginRequest)
-        {
-            var token = await api.Login(loginRequest);
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-            return token;
-        }
+    private async Task<CurrentUser> CurrentUserInfo()
+    {
+        if (_currentUser is not null && _currentUser.IsAuthenticated) return _currentUser;
+        _currentUser = await _api.GetCurrentUserInfo();
+        return _currentUser;
+    }
 
-        public async Task<bool> TryLogin(string password)
-        {
-            return await api.TryLogin(new LoginRequest{Password = password, UserName = _currentUser.UserName});
-        }
+    public async Task<string> Login(LoginRequest loginRequest)
+    {
+        var token = await _api.Login(loginRequest);
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        return token;
+    }
 
-        public async Task Register(RegisterRequest registerRequest)
-        {
-            await api.Register(registerRequest);
-            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
-        }
+    public async Task<bool> TryLogin(string password) => 
+        await _api.TryLogin(new LoginRequest{Password = password, UserName = _currentUser.UserName});
 
-        public async Task<string> EncryptToken(TokenKeyModel request)
-        {
-            return await api.EncryptToken(request);
-        }
+    public async Task Register(RegisterRequest registerRequest)
+    {
+        await _api.Register(registerRequest);
+        NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+    }
 
-        public async Task<string> DecryptToken(TokenKeyModel request)
-        {
-            return await api.DecryptToken(request);
-        }
+    public async Task<string> EncryptToken(TokenKeyModel request) => await _api.EncryptToken(request);
+    public async Task<string> DecryptToken(TokenKeyModel request) => await _api.DecryptToken(request);
 
-        public async Task Logout()
+    public async Task Logout()
+    {
+        try
         {
-            await api.Logout();
+            await _api.Logout();
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
-
-        public async Task<UserToken> GetUserToken(string? password = "", string? pageName = "")
+        catch (Exception)
         {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                if (string.IsNullOrWhiteSpace(api.UserToken.Token) || api.UserToken.ExpirationDate < DateTime.UtcNow)
-                    _nav.NavigateTo($"/account/ConfirmPassword/{pageName}");
-                return api.UserToken;
-            }
+            _nav.NavigateTo("/");
+        }
+    }
+
+    public async Task<UserToken> GetUserToken(string? password = "", string? pageName = "")
+    {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            if (string.IsNullOrWhiteSpace(_api.UserToken?.Token) || _api.UserToken.ExpirationDate < DateTime.UtcNow)
+                _nav.NavigateTo($"/account/ConfirmPassword/{pageName}");
             
-            await api.RefreshToken(new LoginRequest() { Password = password, UserName = _currentUser.UserName });
-
-            return api.UserToken;
+            return _api.UserToken;
         }
+        
+        await _api.RefreshToken(new LoginRequest() { Password = password, UserName = _currentUser.UserName });
+
+        return _api.UserToken;
     }
 }

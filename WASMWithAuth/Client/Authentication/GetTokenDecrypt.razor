@@ -1,27 +1,37 @@
-﻿@page "/GetParam/{param}"
+﻿@page "/authorizeuser/{Token}"
+
 @using WASMWithAuth.Client.Authentication.Interfaces
 @using WASMWithAuth.Shared.Entities.Models
 
-@inject NavigationManager _nav
-@inject CustomStateProvider _provider
-@inject IAuthService _AuthService
+@inject NavigationManager Nav
+@inject CustomStateProvider Provider
+@inject IAuthService AuthService
+
+<p>@Token</p>
+<p>@AuthService.UserToken.Token</p>
+<p>@AuthService.UserToken.UserName</p>
+<p>@error</p>
 
 @code {
     [Parameter]
-    public string param { get; set; }
+    public string? Token { get; set; }
+
+    string? error = "";
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            var decryptedtoken = await _provider.DecryptToken(new TokenKeyModel(param, "a@fs@$!v:sg%SMF8"));
-            _AuthService.UserToken.Token = decryptedtoken;
-            _AuthService.UserToken.UserName = (await _provider.GetAuthenticationStateAsync()).User.Identity.Name;
-            _nav.NavigateTo("/");
+            var decrypted_Token = await Provider.DecryptToken(new TokenKeyModel(Token, "a@fs@$!v:sg%SMF8"));
+            AuthService.UserToken.Token = decrypted_Token;
+            AuthService.UserToken.UserName = (await Provider.GetAuthenticationStateAsync()).User.Identity?.Name;
+
+            StateHasChanged();
+            //Nav.NavigateTo("/");
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            error = e.Message;
         }        
     }
 

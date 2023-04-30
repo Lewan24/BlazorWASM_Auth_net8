@@ -1,34 +1,14 @@
 ﻿@page "/"
-@using System.Security.Claims
-
-@inject CustomStateProvider provider
 
 <AuthorizeView>
     <Authorized>
         <h1>Hello @context.User.Identity.Name !!</h1>
         <p>Welcome to app.</p>
         
-        <h3>@context.User.IsInRole("User")</h3>
-        
-        <button class="btn btn-primary" @onclick="test">Refresh roles</button>
-        
-        @foreach (var item in roles)
-        {
-            <p>@item.Type - @item.Value</p>
-        }
+        <h3>Is @context.User.Identity.Name a user?: @context.User.IsInRole("User")</h3>
+        <h3>Is @context.User.Identity.Name an admin?: @context.User.IsInRole("Admin")</h3>
     </Authorized>
     <Authorizing>
         <h1>Loading ...</h1>
     </Authorizing>
 </AuthorizeView>
-
-@code
-{
-    List<Claim> roles = new();
-
-    public async Task test()
-    {
-        var stateCheck = await provider.GetAuthenticationStateAsync();
-        roles = stateCheck.User.Claims.ToList();
-    }
-}

@@ -2,6 +2,7 @@
 using WASMWithAuth.Shared.Entities.Models;
 
 namespace WASMWithAuth.Client.Authentication.Interfaces;
+
 public interface IAuthService
 {
     UserToken? UserToken { get; set; }

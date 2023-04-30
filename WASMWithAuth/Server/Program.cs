@@ -21,10 +21,10 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.HttpOnly = false;
     options.Events.OnRedirectToLogin = context =>
     {
-        context.Response.StatusCode = 401;
+        context.RedirectUri = "/";
         return Task.CompletedTask;
     };
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
+    options.ExpireTimeSpan = TimeSpan.FromSeconds(15);
 });
 
 builder.Services.AddScoped<ITokenValidationService, TokenValidationService>();
