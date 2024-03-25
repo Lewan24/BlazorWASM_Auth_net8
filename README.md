@@ -1,3 +1,5 @@
+[![.NET](https://github.com/Lewan24/WASMWithAuth/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Lewan24/WASMWithAuth/actions/workflows/dotnet.yml)
+
 Project is created for one specific reason.
 
 Currently in blazor apps, if you want client to connect to the server, authorize to api requests, etc
