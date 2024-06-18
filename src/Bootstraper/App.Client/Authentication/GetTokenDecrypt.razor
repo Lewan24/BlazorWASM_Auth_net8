@@ -1,0 +1,26 @@
+﻿@page "/authorizeuser"
+
+@using global::App.Client.Authentication.Interfaces
+@using global::Shared.Entities.Models
+
+@inject NavigationManager Nav
+@inject CustomStateProvider Provider
+@inject IAuthService AuthService
+
+@inject NavigationManager navigationManager
+@using Microsoft.AspNetCore.WebUtilities @*for QueryHelpers*@
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = navigationManager.ToAbsoluteUri(navigationManager.Uri); //you can use IURIHelper for older versions
+
+        if(QueryHelpers.ParseQuery(uri.Query).TryGetValue("Token", out var token))
+        {
+            AuthService.UserToken.Token = await Provider.DecryptToken(new TokenKeyModel(token, "a@fs@$!v:sg%SMF8"));
+            AuthService.UserToken.UserName = (await Provider.GetAuthenticationStateAsync()).User.Identity?.Name;
+
+            Nav.NavigateTo("/");
+        }
+    }
+}

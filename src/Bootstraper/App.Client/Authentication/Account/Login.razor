@@ -1,0 +1,57 @@
+﻿@page "/account/login"
+
+@using Microsoft.AspNetCore.Components
+@using global::Shared.Entities.Models
+
+@layout AuthLayout
+
+@inject NavigationManager NavigationManager
+@inject CustomStateProvider AuthStateProvider
+
+<MudContainer Class="d-flex flex-column justify-content pa-4 mt-16">
+    <h2 class="h2 font-weight-normal login-title">Login</h2>
+
+    <EditForm Model="@LoginRequest" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+        <ValidationSummary/>
+
+        <MudCard Class="my-4">
+            <MudCardContent>
+                <MudTextField Label="First name" HelperText="Max. 8 characters"
+                              @bind-Value="LoginRequest.UserName" For="@(() => LoginRequest.UserName)"/>
+
+                <MudTextField Label="Password" Class="mt-3"
+                              @bind-Value="LoginRequest.Password" For="@(() => LoginRequest.Password)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Log in</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+
+    <MudButton StartIcon="@Icons.Material.Filled.ChangeCircle" Href="/account/register">Register -></MudButton>
+</MudContainer>
+
+@code {
+    LoginRequest? LoginRequest { get; set; } = new();
+    string? Error { get; set; }
+
+    private async Task OnValidSubmit()
+    {
+        Error = null;
+        try
+        {
+            var token = await AuthStateProvider.Login(LoginRequest);
+            var encryptedToken = await AuthStateProvider.EncryptToken(new TokenKeyModel(token, "a@fs@$!v:sg%SMF8"));
+
+            Error = encryptedToken;
+
+            NavigationManager.NavigateTo($"/authorizeuser?Token={encryptedToken}", true);
+        }
+        catch (Exception ex)
+        {
+            Error = ex.Message;
+        }
+    }
+
+}
