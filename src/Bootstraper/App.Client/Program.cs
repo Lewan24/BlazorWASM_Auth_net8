@@ -1,22 +1,20 @@
-using Microsoft.AspNetCore.Components.Authorization;
+using App.Models.Auth.Shared.HttpHandlers;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
-using App.Client.Authentication.Interfaces;
-using App.Client.Authentication.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App.Client.App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddOptions();
-builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<CustomStateProvider>();
-builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<CustomStateProvider>());
-builder.Services.AddSingleton<IAuthService, AuthService>();
-
-builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-
+builder.Services.AddClientApplicationLayer();
 builder.Services.AddMudServices();
+
+builder.Services.AddScoped<HttpTokenAuthHeaderHandler>();
+builder.Services.AddHttpClient(client =>
+{
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+}).AddHttpMessageHandler<HttpTokenAuthHeaderHandler>();
 
 await builder.Build().RunAsync();

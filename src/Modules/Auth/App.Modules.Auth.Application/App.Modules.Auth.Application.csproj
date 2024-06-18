@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\App.Modules.Auth.Core\App.Modules.Auth.Core.csproj" />
+      <ProjectReference Include="..\App.Modules.Auth.Infrastructure\App.Modules.Auth.Infrastructure.csproj" />
+      <ProjectReference Include="..\App.Modules.Auth.Shared\App.Modules.Auth.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.6" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Services\Api\" />
+      <Folder Include="Services\Users\" />
+    </ItemGroup>
+
+</Project>

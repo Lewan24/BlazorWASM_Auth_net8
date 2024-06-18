@@ -21,6 +21,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Server", "src\Bootstrap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Models.Weather.Shared", "src\Modules\Weather\App.Models.Weather.Shared\App.Models.Weather.Shared.csproj", "{9EE6D393-DF43-45A7-B34C-6F657035811E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Modules.Auth.Api", "src\Modules\Auth\App.Modules.Auth.Api\App.Modules.Auth.Api.csproj", "{B382C427-CAB7-48C6-92C4-845DFCE7BEF5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Modules.Auth.Shared", "src\Modules\Auth\App.Modules.Auth.Shared\App.Modules.Auth.Shared.csproj", "{75D8B08F-FC1E-4103-BB7E-D9AD83F69636}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Modules.Auth.Application", "src\Modules\Auth\App.Modules.Auth.Application\App.Modules.Auth.Application.csproj", "{F86AEE06-1F7C-41C0-A3BF-D1371045CE35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Modules.Auth.Infrastructure", "src\Modules\Auth\App.Modules.Auth.Infrastructure\App.Modules.Auth.Infrastructure.csproj", "{7B26F19E-736B-42AF-B4AE-BD8B0F2EDE7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Modules.Auth.Core", "src\Modules\Auth\App.Modules.Auth.Core\App.Modules.Auth.Core.csproj", "{F1153F30-6154-4CF1-8509-4039FA31523B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +53,26 @@ Global
 		{9EE6D393-DF43-45A7-B34C-6F657035811E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE6D393-DF43-45A7-B34C-6F657035811E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE6D393-DF43-45A7-B34C-6F657035811E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B382C427-CAB7-48C6-92C4-845DFCE7BEF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B382C427-CAB7-48C6-92C4-845DFCE7BEF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B382C427-CAB7-48C6-92C4-845DFCE7BEF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B382C427-CAB7-48C6-92C4-845DFCE7BEF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{75D8B08F-FC1E-4103-BB7E-D9AD83F69636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{75D8B08F-FC1E-4103-BB7E-D9AD83F69636}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{75D8B08F-FC1E-4103-BB7E-D9AD83F69636}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{75D8B08F-FC1E-4103-BB7E-D9AD83F69636}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F86AEE06-1F7C-41C0-A3BF-D1371045CE35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F86AEE06-1F7C-41C0-A3BF-D1371045CE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F86AEE06-1F7C-41C0-A3BF-D1371045CE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F86AEE06-1F7C-41C0-A3BF-D1371045CE35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B26F19E-736B-42AF-B4AE-BD8B0F2EDE7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B26F19E-736B-42AF-B4AE-BD8B0F2EDE7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B26F19E-736B-42AF-B4AE-BD8B0F2EDE7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B26F19E-736B-42AF-B4AE-BD8B0F2EDE7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1153F30-6154-4CF1-8509-4039FA31523B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1153F30-6154-4CF1-8509-4039FA31523B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1153F30-6154-4CF1-8509-4039FA31523B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1153F30-6154-4CF1-8509-4039FA31523B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +89,10 @@ Global
 		{E787FAA0-B64D-444A-8896-C9CEECFA42C3} = {E52AD6E9-417F-4449-8F02-37238864E3E1}
 		{41D85B37-9D4B-4011-BD7A-CA35B97F34FC} = {E52AD6E9-417F-4449-8F02-37238864E3E1}
 		{9EE6D393-DF43-45A7-B34C-6F657035811E} = {667C0B6A-AC0D-4EA0-860D-4A0E16635B2F}
+		{B382C427-CAB7-48C6-92C4-845DFCE7BEF5} = {8848C58D-BA82-4F30-8EB9-41420AC39017}
+		{75D8B08F-FC1E-4103-BB7E-D9AD83F69636} = {8848C58D-BA82-4F30-8EB9-41420AC39017}
+		{F86AEE06-1F7C-41C0-A3BF-D1371045CE35} = {8848C58D-BA82-4F30-8EB9-41420AC39017}
+		{7B26F19E-736B-42AF-B4AE-BD8B0F2EDE7E} = {8848C58D-BA82-4F30-8EB9-41420AC39017}
+		{F1153F30-6154-4CF1-8509-4039FA31523B} = {8848C58D-BA82-4F30-8EB9-41420AC39017}
 	EndGlobalSection
 EndGlobal

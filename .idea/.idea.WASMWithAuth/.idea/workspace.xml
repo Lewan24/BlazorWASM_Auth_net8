@@ -16,70 +16,65 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ed4174d-cb72-4af4-bb4e-81d3195723aa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth.sln" beforeDir="false" afterPath="$PROJECT_DIR$/BlazorWASM_Auth_net8.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/App.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/Account/ConfirmPassword.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/Account/Login.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/Account/Register.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/GetTokenDecrypt.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/Interfaces/IAuthService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/Services/AuthService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Authentication/Services/CustomStateProvider.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Pages/Counter.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Pages/FetchData.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Pages/Index.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Shared/AuthLayout.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Shared/MainLayout.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Shared/MainLayout.razor.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Shared/NavMenu.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/Shared/NavMenu.razor.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/WASMWithAuth.Client.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/_Imports.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/app.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/bootstrap/bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/bootstrap/bootstrap.min.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/FONT-LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/ICON-LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/font/fonts/open-iconic.eot" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/font/fonts/open-iconic.otf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/font/fonts/open-iconic.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/css/open-iconic/font/fonts/open-iconic.woff" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/favicon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/icon-192.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Client/wwwroot/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Controllers/AuthController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Controllers/WeatherForecastController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Data/ApplicationDBContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Data/Encryptor.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Data/Interfaces/ITokenValidationService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Data/Services/TokenValidationService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Dockerfile" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Migrations/20230424175925_Identity.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Migrations/20230424175925_Identity.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Migrations/20230425160734_InitializeTokens.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Migrations/20230425160734_InitializeTokens.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Migrations/ApplicationDBContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Models/ApplicationUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Pages/Error.cshtml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Pages/Error.cshtml.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/WASMWithAuth.Server.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/appsettings.Development.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Server/appsettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/Entities/Models/CurrentUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/Entities/Models/LoginRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/Entities/Models/RegisterRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/Entities/Models/TokenKeyModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/Entities/UserToken.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/WASMWithAuth.Shared.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/WASMWithAuth/Shared/WeatherForecast.cs" beforeDir="false" />
+    <list default="true" id="7ed4174d-cb72-4af4-bb4e-81d3195723aa" name="Changes" comment="fix previous commit">
+      <change afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/Common/Extensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/App.Modules.Auth.Api.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/Controllers/AuthController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/Entities/AuthSettings.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Extensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Services/AuthService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Services/Health/AuthHealthService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Services/Token/TokenValidationService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Core/Entities/AppUser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Core/Entities/CurrentUser.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Core/Entities/TokenModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/App.Modules.Auth.Infrastructure.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/DbContexts/AppIdentityDbContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/Extensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/Repositories/IUserTokenService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/Repositories/UserTokenService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/ActionsRequests/LoginRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/ActionsRequests/RegisterRequest.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/App.Modules.Auth.Shared.csproj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Dtos/IAuditable.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Dtos/UserDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Entities/Tokens/TokenKeyModel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Entities/Tokens/TokenModelDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/HttpHandlers/HttpTokenAuthHeaderHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/AuthStateProvider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/Health/IAuthHealthService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/IAuthService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/Token/ITokenValidationService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Static/Entities/AppRoles.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Static/Entities/AuthHeaderName.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Static/Setters/HttpClientAuthHeaderSetter.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Shared/Attributes/AdminTokenAuthorizationAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Shared/Attributes/AllowWithoutTokenValidationAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Shared/Attributes/BasicTokenAuthorizationAttribute.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Shared/Common/BaseController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.WASMWithAuth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WASMWithAuth/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlazorWASM_Auth_net8.sln" beforeDir="false" afterPath="$PROJECT_DIR$/BlazorWASM_Auth_net8.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/App.Client.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Client/App.Client.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/GetTokenDecrypt.razor" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/Interfaces/IAuthService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/Services/AuthService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/Services/CustomStateProvider.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Client/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/App.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/App.Server.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Controllers/AuthController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Controllers/WeatherForecastController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/Controllers/WeatherForecastController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Data/ApplicationDBContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Data/Interfaces/ITokenValidationService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Data/Services/TokenValidationService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Models/ApplicationUser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/CurrentUser.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/LoginRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/RegisterRequest.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/TokenKeyModel.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/UserToken.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Shared/Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shared/Shared.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,47 +89,53 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "Lewan24"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Lewan24&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Lewan24/BlazorWASM_Auth_net8.git",
-    "accountId": "323a4a52-1149-41dc-87c6-1bc256df8ac4"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Lewan24/BlazorWASM_Auth_net8.git&quot;,
+    &quot;accountId&quot;: &quot;323a4a52-1149-41dc-87c6-1bc256df8ac4&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/Extensions.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2i4ExjiVVQO7OUBH3dWTzfkAE2q" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "features__upgrade__issue#1",
-    "last_opened_file_path": "/home/artur/Desktop/Programowanie/BlazorWASM_Auth_net8/src/Bootstraper/App.Server/App.Server.csproj",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;features__upgrade__issue#1&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/artur/Desktop/Programowanie/BlazorWASM_Auth_net8/src/Bootstraper/App.Server/App.Server.csproj&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/home/artur/.config/JetBrains/Rider2024.1/resharper-host/DecompilerCache",
-      "/home/artur/.config/JetBrains/Rider2024.1/resharper-host/SourcesCache",
-      "/home/artur/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/home/artur/.config/JetBrains/Rider2024.1/resharper-host/DecompilerCache&quot;,
+      &quot;/home/artur/.config/JetBrains/Rider2024.1/resharper-host/SourcesCache&quot;,
+      &quot;/home/artur/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Docker.Server/Dockerfile">
     <configuration name="App.Client: http" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/src/Bootstraper/App.Client/App.Client.csproj" />
@@ -281,7 +282,10 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
   </component>
@@ -293,13 +297,31 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1718741698988</updated>
-      <workItem from="1718741699240" duration="2765000" />
+      <workItem from="1718741699240" duration="11563000" />
     </task>
+    <task id="LOCAL-00001" summary="Small refactor&#10;Upgrade architecture to Modular monolith&#10;Upgrade project to .NET 8">
+      <option name="closed" value="true" />
+      <created>1718744946338</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1718744946338</updated>
+    </task>
+    <task id="LOCAL-00002" summary="fix previous commit">
+      <option name="closed" value="true" />
+      <created>1718745009145</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1718745009146</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -314,5 +336,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Small refactor&#10;Upgrade architecture to Modular monolith&#10;Upgrade project to .NET 8" />
+    <MESSAGE value="fix previous commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix previous commit" />
   </component>
 </project>

@@ -1,5 +1,4 @@
 using App.Models.Weather.Shared.Dtos;
-using App.Server.Data.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,21 +12,13 @@ public class WeatherForecastController : ControllerBase
     {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
-    
-    private ITokenValidationService _tokenValidationService;
-
-    public WeatherForecastController(ITokenValidationService tokenValidationService)
-    {
-        _tokenValidationService = tokenValidationService;
-    }
-
     [HttpGet]
     [Authorize(Roles = "Admin")]
     [Route("GetWeather")]
     public IActionResult GetWeather(string token)
     {
-        if (!_tokenValidationService.CheckValidation(token, User.Identity.Name))
-            return Ok("Invalid auth");
+        // if (!_tokenValidationService.CheckValidation(token, User.Identity.Name))
+        //     return Ok("Invalid auth");
 
         return Ok(Enumerable.Range(1, 5).Select(index => new WeatherForecastDto
             {
