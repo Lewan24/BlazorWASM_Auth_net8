@@ -13,10 +13,16 @@ builder.Services.AddClientApplicationLayer();
 builder.Services.AddMudServices();
 builder.Services.AddBlazoredLocalStorage();
 
+builder.Services.AddHttpClient("", client =>
+{
+    client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+});
+
 builder.Services.AddScoped<HttpTokenAuthHeaderHandler>();
-builder.Services.AddHttpClient("default", client =>
+builder.Services.AddHttpClient("token", client =>
 {
     client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
 }).AddHttpMessageHandler<HttpTokenAuthHeaderHandler>();
 
-await builder.Build().RunAsync();
+var app = builder.Build();
+await app.RunAsync();

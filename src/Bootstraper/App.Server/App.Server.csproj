@@ -38,5 +38,6 @@
     <ProjectReference Include="..\..\Modules\Auth\App.Modules.Auth.Api\App.Modules.Auth.Api.csproj" />
     <ProjectReference Include="..\..\Modules\Weather\App.Models.Weather.Shared\App.Models.Weather.Shared.csproj" />
     <ProjectReference Include="..\..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\App.Client\App.Client.csproj" />
   </ItemGroup>
 </Project>

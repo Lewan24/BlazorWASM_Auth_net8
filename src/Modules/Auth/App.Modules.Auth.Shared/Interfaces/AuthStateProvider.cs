@@ -75,7 +75,7 @@ public sealed class AuthStateProvider(IAuthService api, NavigationManager nav, I
         return loginResult;
     }
 
-    public async Task<bool> TryLogin(string password)
+    public async Task<bool> TryLogin(string? password)
     {
         try
         {

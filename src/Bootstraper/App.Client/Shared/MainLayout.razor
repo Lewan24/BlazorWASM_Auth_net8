@@ -1,6 +1,7 @@
 ﻿@using global::App.Models.Auth.Shared.Interfaces
 
 @inherits LayoutComponentBase
+
 @inject NavigationManager navigationManager
 @inject AuthStateProvider authStateProvider
 
@@ -20,10 +21,10 @@
         <MudAppBar>
             <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.MoreVert" OnClick="ToggleDrawer"/>
             <MudSpacer/>
-            <MudButton Color="Color.Primary" OnClick="LogoutClick" StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text">Logout</MudButton>
+            <MudButton Color="Color.Secondary" OnClick="LogoutClick" StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text">Logout</MudButton>
         </MudAppBar>
 
-        <MudDrawer Open="_isDrawerOpen" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Temporary">
+        <MudDrawer @bind-Open="_isDrawerOpen" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Temporary">
             <NavMenu/>
         </MudDrawer>
 

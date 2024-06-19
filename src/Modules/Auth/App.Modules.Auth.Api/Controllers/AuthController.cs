@@ -24,9 +24,9 @@ public class AuthController(
     SignInManager<AppUser> signInManager,
     AppIdentityDbContext context,
     ITokenValidationService tokenValidationService,
-    IConfiguration config,
-    ILogger<AuthController> logger)
+    IConfiguration config)
     : BaseController
+//TODO: Add ILogger<AuthController> logger
 {
     private readonly AuthSettings _authSettings = config.GetSection("AuthSettings").Get<AuthSettings>() ?? new();
 
