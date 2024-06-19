@@ -11,12 +11,12 @@ services:
     networks:
       - testnetwork
   db:
-    image: mysql:5.7
+    image: mysql:latest
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: toor
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
       - db-vol:/var/lib/mysql
     networks:
