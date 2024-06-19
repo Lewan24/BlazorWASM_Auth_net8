@@ -1,0 +1,93 @@
+﻿@page "/account/register"
+
+@layout AuthLayout
+
+@using Blazored.LocalStorage
+@using global::App.Models.Auth.Shared.ActionsRequests
+@using global::App.Models.Auth.Shared.Interfaces
+@using global::App.Models.Auth.Shared.Interfaces.Health
+
+@inject NavigationManager navigationManager
+@inject AuthStateProvider authStateProvider
+@inject ILocalStorageService localStorage
+@inject ISnackbar snackBar
+@inject IAuthHealthService healthService
+
+<MudContainer Class="d-flex flex-column justify-content pa-4 mt-16">
+    <h2 class="h2 font-weight-normal login-title">Registration</h2>
+
+    <EditForm Model="@RegisterRequest" OnValidSubmit="OnSubmit">
+        <DataAnnotationsValidator/>
+
+        <MudCard Class="my-4">
+            <MudCardContent>
+                <MudTextField Label="Email address" Disabled="@_isLoggingIn"
+                              @bind-Value="RegisterRequest!.Email" For="@(() => RegisterRequest.Email)"/>
+                <MudTextField Label="Password" HelperText="Choose strong password" Class="mt-3" Disabled="@_isLoggingIn"
+                              @bind-Value="RegisterRequest.Password" For="@(() => RegisterRequest.Password)" InputType="InputType.Password"/>
+                <MudTextField Label="Password" HelperText="Type your passworg again" Class="mt-3" Disabled="@_isLoggingIn"
+                              @bind-Value="RegisterRequest.PasswordConfirm" For="@(() => RegisterRequest.PasswordConfirm)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                @if (_isLoggingIn)
+                {
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Small"/>
+                }
+                else
+                {
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" StartIcon="@Icons.Material.Filled.ArrowRight">Sign up</MudButton>
+                }
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+
+    <MudContainer Class="d-flex flex-row justify-center">
+        <MudButton StartIcon="@Icons.Material.Filled.RotateRight" Variant="Variant.Filled" Color="Color.Primary" Disabled="@_isLoggingIn" Href="/account/login">
+            Sign in <span>-></span>
+        </MudButton>
+    </MudContainer>
+</MudContainer>
+
+@functions{
+    RegisterRequest RegisterRequest { get; set; } = new();
+    bool _isLoggingIn;
+
+    async Task OnSubmit()
+    {
+        _isLoggingIn = true;
+
+        bool isHealthy = false;
+        
+        var result = await healthService.CheckHealthAsync();
+        result.Switch(
+            success => isHealthy = true,
+            failure => isHealthy = false,
+            error =>
+            {
+                snackBar.Add("Error has been occured during checking system health. Check logs or contact the Administrator for more information.", Severity.Error);
+                isHealthy = false;
+            }
+        );
+        
+        if (!isHealthy)
+        {
+            snackBar.Add("Service is unavailable. Wait a minute and try again.", Severity.Error);
+            _isLoggingIn = false;
+            return;
+        }
+
+        var registerResult = await authStateProvider.Register(RegisterRequest);
+
+        if (!registerResult.Success)
+        {
+            snackBar.Add(registerResult.Msg, Severity.Error);
+            _isLoggingIn = false;
+            return;
+        }
+
+        await localStorage.SetItemAsync("User", registerResult.Msg);
+
+        navigationManager.NavigateTo("/account/login/", false);
+    }
+
+}

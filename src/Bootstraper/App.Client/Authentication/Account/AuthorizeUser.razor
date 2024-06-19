@@ -1,0 +1,31 @@
+@page "/authorizeuser"
+
+@layout AuthLayout
+
+@using Blazored.LocalStorage
+@using global::App.Models.Auth.Shared.Interfaces
+
+@inject NavigationManager Nav
+@inject AuthStateProvider Provider
+@inject IAuthService AuthService
+@inject ILocalStorageService localStorage
+
+<App.Client.Pages.Components.LoadingComponent/>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        var token = await localStorage.GetItemAsync<string>("TempToken");
+
+        AuthService.UserToken!.Token = token;
+
+        var authState = await Provider.GetAuthenticationStateAsync();
+        AuthService.UserToken.Email = authState.User.Identity?.Name;
+
+        await localStorage.RemoveItemAsync("TempToken");
+
+        Nav.NavigateTo("/", false);
+    }
+
+}

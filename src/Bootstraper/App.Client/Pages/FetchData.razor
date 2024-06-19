@@ -1,0 +1,70 @@
+﻿@page "/fetchdata"
+
+@using global::App.Models.Auth.Shared.Interfaces
+@using global::App.Models.Weather.Shared.Dtos
+@using Microsoft.AspNetCore.Authorization
+
+@inject HttpClient Http
+@inject AuthStateProvider provider
+
+@attribute [Authorize(Roles = "Admin")]
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (!string.IsNullOrWhiteSpace(error))
+{
+    <p style="color:red">@error</p>
+}
+
+@code {
+    private WeatherForecastDto[]? forecasts;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var token = await provider.GetCurrentUserToken(pageName: "fetchdata");
+
+            forecasts = await Http.GetFromJsonAsync<WeatherForecastDto[]>($"api/WeatherForecast/GetWeather?token={token}");
+            error = "";
+        }
+        catch (Exception e)
+        {
+            error = e.Message;
+        }
+    }
+}

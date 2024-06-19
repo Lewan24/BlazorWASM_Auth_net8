@@ -1,0 +1,60 @@
+﻿@using global::App.Models.Auth.Shared.Interfaces
+
+@inherits LayoutComponentBase
+
+@inject NavigationManager navigationManager
+@inject AuthStateProvider authStateProvider
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    @if (!_isPageRdy)
+    {
+    <MudMainContent>
+        <App.Client.Pages.Components.LoadingComponent/>
+    </MudMainContent>
+    }
+    else
+    {
+        <MudAppBar>
+            <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.MoreVert" OnClick="ToggleDrawer"/>
+            <MudSpacer/>
+            <MudButton Color="Color.Secondary" OnClick="LogoutClick" StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text">Logout</MudButton>
+        </MudAppBar>
+
+        <MudDrawer @bind-Open="_isDrawerOpen" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Temporary">
+            <NavMenu/>
+        </MudDrawer>
+
+        <MudMainContent>
+            <MudContainer Class="pa-4" MaxWidth="MaxWidth.Large">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    }
+</MudLayout>
+
+@code{
+    bool _isPageRdy;
+    bool _isDrawerOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var isAuthenticated = await authStateProvider.IsUserAuthenticated();
+
+        if (!isAuthenticated)
+            navigationManager.NavigateTo("/account/login", false);
+
+        _isPageRdy = true;
+    }
+
+    async Task LogoutClick()
+    {
+        await authStateProvider.Logout();
+        navigationManager.NavigateTo("/account/login");
+    }
+
+    void ToggleDrawer() => _isDrawerOpen = !_isDrawerOpen;
+}

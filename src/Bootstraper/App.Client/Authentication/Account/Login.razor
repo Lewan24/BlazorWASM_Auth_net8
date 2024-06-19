@@ -1,0 +1,124 @@
+﻿@page "/account/login"
+
+@layout AuthLayout
+
+@using Blazored.LocalStorage
+@using global::App.Models.Auth.Shared.ActionsRequests
+@using global::App.Models.Auth.Shared.Interfaces
+@using global::App.Models.Auth.Shared.Interfaces.Health
+
+@inject NavigationManager NavigationManager
+@inject AuthStateProvider AuthStateProvider
+@inject ILocalStorageService localStorage
+@inject ISnackbar snackBar
+@inject IAuthHealthService healthService
+
+<MudContainer Class="d-flex flex-column justify-content-center pa-4 mt-16">
+    <h2 class="h2 font-weight-normal login-title">Logging</h2>
+
+    <EditForm Model="@LoginRequest" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator/>
+
+        <MudCard Class="my-4">
+            <MudCardContent>
+                <MudTextField Label="Email address" Disabled="@_isLoggingIn"
+                              @bind-Value="LoginRequest.Email" For="@(() => LoginRequest.Email)"/>
+
+                <MudTextField Label="Password" Class="mt-3" Disabled="@_isLoggingIn"
+                              @bind-Value="LoginRequest.Password" For="@(() => LoginRequest.Password)" InputType="InputType.Password"/>
+            </MudCardContent>
+            <MudCardActions>
+                @if (_isLoggingIn)
+                {
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Small"/>
+                }
+                else
+                {
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" StartIcon="@Icons.Material.Filled.ArrowRight">Log in</MudButton>
+                }
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+
+    <MudContainer Class="d-flex flex-row justify-center">
+        <MudButton StartIcon="@Icons.Material.Filled.RotateRight" Variant="Variant.Filled" Color="Color.Primary" Disabled="@_isLoggingIn" Href="/account/register">
+            Sign up <span>-></span>
+        </MudButton>
+    </MudContainer>
+</MudContainer>
+
+@code {
+    LoginRequest LoginRequest { get; set; } = new();
+    bool _isLoggingIn;
+    bool _isHealthy;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await healthService.CheckHealthAsync();
+        result.Switch(
+            success => _isHealthy = true,
+            failure => _isHealthy = false,
+            error =>
+            {
+                snackBar.Add("Error has been occured during checking system health. Check logs or contact the Administrator for more information.", Severity.Error);
+                _isHealthy = false;
+            }
+        );
+        
+        if (!_isHealthy)
+        {
+            snackBar.Add("Service is unavailable. Wait a minute and try again.", Severity.Error);
+            return;
+        }
+
+        var isAuthenticated = await AuthStateProvider.IsUserAuthenticated();
+
+        if (isAuthenticated)
+        {
+            NavigationManager.NavigateTo("/", false);
+            return;
+        }
+
+        LoginRequest.Email = await localStorage.GetItemAsync<string>("User");
+        await localStorage.RemoveItemAsync("User");
+
+        StateHasChanged();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        _isLoggingIn = true;
+
+        var result = await healthService.CheckHealthAsync();
+        result.Switch(
+            success => _isHealthy = true,
+            failure => _isHealthy = false,
+            error =>
+            {
+                snackBar.Add("Error has been occured during checking system health. Check logs or contact the Administrator for more information.", Severity.Error);
+                _isHealthy = false;
+            }
+        );
+        
+        if (!_isHealthy)
+        {
+            snackBar.Add("Service is unavailable. Wait a minute and try again.", Severity.Error);
+            _isLoggingIn = false;
+            return;
+        }
+
+        var loginResult = await AuthStateProvider.Login(LoginRequest);
+
+        if (!loginResult.Success)
+        {
+            snackBar.Add(loginResult.Msg, Severity.Error);
+            _isLoggingIn = false;
+            return;
+        }
+
+        await AuthStateProvider.GetCurrentUserToken(LoginRequest!.Password);
+
+        NavigationManager.NavigateTo("/", false);
+    }
+
+}

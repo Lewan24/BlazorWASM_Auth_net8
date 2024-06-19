@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\microsoft.aspnetcore.identity.entityframeworkcore\7.0.5\lib\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.EntityFrameworkCore">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\microsoft.entityframeworkcore\7.0.5\lib\net6.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+      </Reference>
+      <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\microsoft.extensions.dependencyinjection.abstractions\8.0.0\lib\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      </Reference>
+      <Reference Include="MySql.EntityFrameworkCore">
+        <HintPath>..\..\..\..\..\..\..\.nuget\packages\mysql.entityframeworkcore\7.0.2\lib\net7.0\MySql.EntityFrameworkCore.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\App.Modules.Auth.Core\App.Modules.Auth.Core.csproj" />
+      <ProjectReference Include="..\App.Modules.Auth.Shared\App.Modules.Auth.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.2" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>App.Models.Auth.Api</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\Shared.csproj" />
+      <ProjectReference Include="..\App.Modules.Auth.Application\App.Modules.Auth.Application.csproj" />
+      <ProjectReference Include="..\App.Modules.Auth.Shared\App.Modules.Auth.Shared.csproj" />
+    </ItemGroup>
+
+</Project>
