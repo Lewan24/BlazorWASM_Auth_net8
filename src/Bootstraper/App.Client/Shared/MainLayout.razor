@@ -1,48 +1,59 @@
-﻿@inherits LayoutComponentBase
-@inject NavigationManager navigationManager
-@inject CustomStateProvider authStateProvider
+﻿@using global::App.Models.Auth.Shared.Interfaces
 
-<MudThemeProvider IsDarkMode="true" />
+@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+@inject AuthStateProvider authStateProvider
+
+<MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar>
-        <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.MoreVert" OnClick="ToggleDrawer"/>
-        <MudSpacer/>
-        <MudButton Color="Color.Primary" OnClick="LogoutClick" StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text">Logout</MudButton>
-    </MudAppBar>
-    
-    <MudDrawer Open="isDrawerOpen">
-        <NavMenu/>
-    </MudDrawer>
-
+    @if (!_isPageRdy)
+    {
     <MudMainContent>
-        <MudContainer Class="pa-4" MaxWidth="MaxWidth.Large">
-            @Body
-        </MudContainer>
+        <App.Client.Pages.Components.LoadingComponent/>
     </MudMainContent>
+    }
+    else
+    {
+        <MudAppBar>
+            <MudIconButton Color="Color.Error" Icon="@Icons.Material.Filled.MoreVert" OnClick="ToggleDrawer"/>
+            <MudSpacer/>
+            <MudButton Color="Color.Primary" OnClick="LogoutClick" StartIcon="@Icons.Material.Filled.Logout" Variant="Variant.Text">Logout</MudButton>
+        </MudAppBar>
+
+        <MudDrawer Open="_isDrawerOpen" ClipMode="DrawerClipMode.Always" Variant="DrawerVariant.Temporary">
+            <NavMenu/>
+        </MudDrawer>
+
+        <MudMainContent>
+            <MudContainer Class="pa-4" MaxWidth="MaxWidth.Large">
+                @Body
+            </MudContainer>
+        </MudMainContent>
+    }
 </MudLayout>
 
-@functions{
+@code{
+    bool _isPageRdy;
+    bool _isDrawerOpen;
 
-    [CascadingParameter]
-    Task<AuthenticationState> AuthenticationState { get; set; }
-
-    bool isDrawerOpen = false;
-
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
-        if (!(await AuthenticationState).User.Identity.IsAuthenticated)
-        {
-            navigationManager.NavigateTo("/account/login");
-        }
+        var isAuthenticated = await authStateProvider.IsUserAuthenticated();
+
+        if (!isAuthenticated)
+            navigationManager.NavigateTo("/account/login", false);
+
+        _isPageRdy = true;
     }
+
     async Task LogoutClick()
     {
         await authStateProvider.Logout();
         navigationManager.NavigateTo("/account/login");
     }
 
-    void ToggleDrawer() => isDrawerOpen = !isDrawerOpen;
+    void ToggleDrawer() => _isDrawerOpen = !_isDrawerOpen;
 }

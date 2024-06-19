@@ -1,9 +1,11 @@
 ﻿@page "/fetchdata"
+
+@using global::App.Models.Auth.Shared.Interfaces
 @using global::App.Models.Weather.Shared.Dtos
 @using Microsoft.AspNetCore.Authorization
 
 @inject HttpClient Http
-@inject CustomStateProvider provider
+@inject AuthStateProvider provider
 
 @attribute [Authorize(Roles = "Admin")]
 
@@ -55,9 +57,9 @@ else
     {
         try
         {
-            var userToken = await provider.GetUserToken(pageName: "fetchdata");
+            var token = await provider.GetCurrentUserToken(pageName: "fetchdata");
 
-            forecasts = await Http.GetFromJsonAsync<WeatherForecastDto[]>($"api/WeatherForecast/GetWeather?token={userToken.Token}");
+            forecasts = await Http.GetFromJsonAsync<WeatherForecastDto[]>($"api/WeatherForecast/GetWeather?token={token}");
             error = "";
         }
         catch (Exception e)

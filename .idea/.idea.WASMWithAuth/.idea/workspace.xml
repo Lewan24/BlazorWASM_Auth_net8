@@ -16,66 +16,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ed4174d-cb72-4af4-bb4e-81d3195723aa" name="Changes" comment="fix previous commit">
-      <change afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/Common/Extensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/App.Modules.Auth.Api.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/Controllers/AuthController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Api/Entities/AuthSettings.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Extensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Services/AuthService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Services/Health/AuthHealthService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Application/Services/Token/TokenValidationService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Core/Entities/AppUser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Core/Entities/CurrentUser.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Core/Entities/TokenModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/App.Modules.Auth.Infrastructure.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/DbContexts/AppIdentityDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/Extensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/Repositories/IUserTokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Infrastructure/Repositories/UserTokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/ActionsRequests/LoginRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/ActionsRequests/RegisterRequest.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/App.Modules.Auth.Shared.csproj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Dtos/IAuditable.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Dtos/UserDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Entities/Tokens/TokenKeyModel.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Entities/Tokens/TokenModelDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/HttpHandlers/HttpTokenAuthHeaderHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/AuthStateProvider.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/Health/IAuthHealthService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/IAuthService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Interfaces/Token/ITokenValidationService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Static/Entities/AppRoles.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Static/Entities/AuthHeaderName.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Modules/Auth/App.Modules.Auth.Shared/Static/Setters/HttpClientAuthHeaderSetter.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Shared/Attributes/AdminTokenAuthorizationAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Shared/Attributes/AllowWithoutTokenValidationAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Shared/Attributes/BasicTokenAuthorizationAttribute.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Shared/Common/BaseController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.WASMWithAuth/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.WASMWithAuth/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BlazorWASM_Auth_net8.sln" beforeDir="false" afterPath="$PROJECT_DIR$/BlazorWASM_Auth_net8.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/App.Client.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Client/App.Client.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/GetTokenDecrypt.razor" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/Interfaces/IAuthService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/Services/AuthService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Authentication/Services/CustomStateProvider.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Client/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Client/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/App.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/App.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Controllers/AuthController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Controllers/WeatherForecastController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/Controllers/WeatherForecastController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Data/ApplicationDBContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Data/Interfaces/ITokenValidationService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Data/Services/TokenValidationService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Models/ApplicationUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Bootstraper/App.Server/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/Bootstraper/App.Server/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/CurrentUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/LoginRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/RegisterRequest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/Models/TokenKeyModel.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shared/Entities/UserToken.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Shared/Shared.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Shared/Shared.csproj" afterDir="false" />
-    </list>
+    <list default="true" id="7ed4174d-cb72-4af4-bb4e-81d3195723aa" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -297,7 +238,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1718741698988</updated>
-      <workItem from="1718741699240" duration="11563000" />
+      <workItem from="1718741699240" duration="11636000" />
     </task>
     <task id="LOCAL-00001" summary="Small refactor&#10;Upgrade architecture to Modular monolith&#10;Upgrade project to .NET 8">
       <option name="closed" value="true" />
@@ -315,7 +256,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718745009146</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Refactor code&#10;Change architecture&#10;Implement and clean up all files&#10;Recreate all needed functionallities">
+      <option name="closed" value="true" />
+      <created>1718753746853</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1718753746853</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,6 +287,7 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Small refactor&#10;Upgrade architecture to Modular monolith&#10;Upgrade project to .NET 8" />
     <MESSAGE value="fix previous commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix previous commit" />
+    <MESSAGE value="Refactor code&#10;Change architecture&#10;Implement and clean up all files&#10;Recreate all needed functionallities" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor code&#10;Change architecture&#10;Implement and clean up all files&#10;Recreate all needed functionallities" />
   </component>
 </project>
